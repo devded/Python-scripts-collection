@@ -6,6 +6,7 @@ CSV output is written to out_file.csv in current directory
 
 Lookups are retrieved from extreme-ip-lookup.com website
 """
+
 import csv
 import getpass
 import socket
@@ -31,7 +32,7 @@ with open("out_file.csv", mode="w", newline='') as out_file, open('ip_list.txt')
         "Organization",
     ])
 
-    for ip in ip_list.readlines():
+    for ip in ip_list:
         ip = ip.strip()
         try:
             hostname, aliaslist, ipaddrlist = socket.gethostbyaddr(ip)
@@ -39,7 +40,7 @@ with open("out_file.csv", mode="w", newline='') as out_file, open('ip_list.txt')
             hostname = ''
 
         try:
-            response = session.get("https://extreme-ip-lookup.com/json/%s" % ip)
+            response = session.get(f"https://extreme-ip-lookup.com/json/{ip}")
             response.raise_for_status()
             ip_data = response.json()
 

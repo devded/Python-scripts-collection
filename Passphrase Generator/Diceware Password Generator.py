@@ -10,7 +10,7 @@ print("This is a passphrase generator based on the Diceware method of passphrase
 
 #Ask user how long they want the passphrase to be
 LengthValid = False
-while LengthValid == False:
+while not LengthValid:
 
     Length = input("\nPlease enter how many words long you would like your passphrase \n(between 5-10, Recommended:7):")
     try:
@@ -28,13 +28,11 @@ Passwords = []
 P = 1
 while P <= int(Length): #Stop when there are X words (Defined by user) from the dictionary in the passphrase
     TotalRoll = []
-    i = 1
     TR = 0
     TotalRollConcat = ""
-    while i <= 5:
+    for _ in range(1, 6):
         Diceroll = random.randint(1,6)
         TotalRoll.append(Diceroll)
-        i += 1
     #Concatenate the Dice rolls
     while TR != 5:
         TotalRollConcat += str(TotalRoll[TR])
@@ -44,67 +42,55 @@ while P <= int(Length): #Stop when there are X words (Defined by user) from the 
     Passwords.append(Word)
     P += 1
 #Concatenate the words in the password list
-Passphrase = ""
-pp = 0
-while pp < int(Length):
-    Passphrase += str(Passwords[pp])
-    pp += 1
+Passphrase = "".join(str(Passwords[pp]) for pp in range(int(Length)))
 print("\n",Passphrase.capitalize())
 
 #Check if user wants to add a random symbol/number/caps etc. into the passphrase, or if they want to save it to a text file.
 inputValid = False
-while inputValid == False:
-        Symbol = input("\nHere is your passphrase. If you want to make it extra secure, \n"
-                       "you can replace a random character with a random symbol \n"
-                       "(You may wish to skip this if your generated password already has a symbol). (Y/N): ").lower()
+while not inputValid:
+    Symbol = input("\nHere is your passphrase. If you want to make it extra secure, \n"
+                   "you can replace a random character with a random symbol \n"
+                   "(You may wish to skip this if your generated password already has a symbol). (Y/N): ").lower()
 
-        if Symbol == "y":
-           Range = len(Passphrase) - 1
-           Char = random.randint(0, Range)
-           Sym = random.choice(SL)
-           Passphrase2 = ""
-           i = 0
-           while i <= Range:
-               if i != Char:
-                   Passphrase2 += Passphrase[i]
-                   i += 1
-               elif i == Char:
-                   Passphrase2 += Sym
-                   i += 1
-           Passphrase = Passphrase2
-        elif Symbol == "n":
-            inputValid = True
-        else:
-            print("That is not a valid answer")
-            continue
+    if Symbol == "y":
+        Range = len(Passphrase) - 1
+        Char = random.randint(0, Range)
+        Sym = random.choice(SL)
+        Passphrase2 = ""
+        i = 0
+        while i <= Range:
+            Passphrase2 += Passphrase[i] if i != Char else Sym
+            i += 1
+        Passphrase = Passphrase2
+    elif Symbol == "n":
         inputValid = True
+    else:
+        print("That is not a valid answer")
+        continue
+    inputValid = True
 
 print("\n",Passphrase.capitalize())
 inputValid = False
-while inputValid == False:
+while not inputValid:
 
-        number = input("\nWould you like to replace a random character with a random number? \n"
-                       "(You may wish to skip this if your generatd password already has a number). (Y/N): ").lower()
-        if number == "y":
-           Range = len(Passphrase) - 1
-           Char2 = random.randint(1, Range)
-           num = random.randint(0, 9)
-           Passphrase2 = ""
-           i = 0
-           while i <= Range:
-               if i == Char or i != Char2:
-                   Passphrase2 += Passphrase[i]
-                   i += 1
-               elif i == Char2:
-                   Passphrase2 += str(num)
-                   i += 1
-           Passphrase = Passphrase2
-        elif number == "n":
-            inputValid = True
-        else:
-            print("That is not a valid answer")
-            continue
+    number = input("\nWould you like to replace a random character with a random number? \n"
+                   "(You may wish to skip this if your generatd password already has a number). (Y/N): ").lower()
+    if number == "y":
+        Range = len(Passphrase) - 1
+        Char2 = random.randint(1, Range)
+        num = random.randint(0, 9)
+        Passphrase2 = ""
+        i = 0
+        while i <= Range:
+            Passphrase2 += Passphrase[i] if i == Char or i != Char2 else str(num)
+            i += 1
+        Passphrase = Passphrase2
+    elif number == "n":
         inputValid = True
+    else:
+        print("That is not a valid answer")
+        continue
+    inputValid = True
 print("""
 
 Here is your passphrase, please write it down and keep it somewhere safe until 

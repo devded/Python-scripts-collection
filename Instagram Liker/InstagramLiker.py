@@ -38,7 +38,7 @@ ListofElements = []
 sleep(3)
 for tag in tags:
 
-    url = "https://www.instagram.com/explore/tags/"+tag+"/"
+    url = f"https://www.instagram.com/explore/tags/{tag}/"
 
     driver.get(url)
     #write code for the like part here!
@@ -50,19 +50,19 @@ for tag in tags:
     driver.find_element_by_xpath("/html/body/div[2]/div[1]/div/div/a").click()
     sleep(2)
     i = 0
-    while(i < limit-1):
+    while (i < limit-1):
         btn = driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/article/div[2]/section[1]/span[1]/button/span')
         print(btn)
         label = btn.get_attribute("aria-label")
         print(label)
-        if(label == "Like"):
+        if (label == "Like"):
             print("Here")
-            i = i+1
+            i += 1
             driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/article/div[2]/section[1]/span[1]/button/span').click()
             sleep(3)
         else:
             print("over here")
-            i = i - 1
+            i -= 1
             driver.find_element_by_xpath("/html/body/div[2]/div[1]/div/div/a[2]").click()
             sleep(2)
             continue

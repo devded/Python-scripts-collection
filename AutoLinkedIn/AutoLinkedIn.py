@@ -21,7 +21,7 @@ def goto_network():
  
 def send_requests():
  n= input("Number of requsts: ")   # Number of requests you want to send
- for i in range(0,n):
-   pag.click(880,770)  # position(in px) of connection button
+ for _ in range(n):
+  pag.click(880,770)  # position(in px) of connection button
  print("Done!")
  

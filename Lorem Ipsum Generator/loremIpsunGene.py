@@ -14,7 +14,7 @@ with open('LoremIpsum.txt') as source:
     words = source.read().split()
 
     with open('new_ipsum.txt','w'):
-        for i in range(paragraphs):
+        for _ in range(paragraphs):
             avenger_name = list(map(NowYouAreAnAvenger,words))
             with open('new_ipsum.txt','a') as avengers_ipsum:
                 avengers_ipsum.write(''.join(avenger_name)+'\n\n')

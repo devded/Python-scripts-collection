@@ -13,14 +13,12 @@ class ChatBot:
 
 	def RemoveStopWords(self, instancia):
 		stopwords = set(nltk.corpus.stopwords.words('portuguese'))
-		palavras = [i for i in instancia.split() if not i in stopwords]
+		palavras = [i for i in instancia.split() if i not in stopwords]
 		return (" ".join(palavras))
 
 	def Stemming(self, instancia):
 		stemmer = nltk.stem.RSLPStemmer()
-		palavras = []
-		for w in instancia.split():
-			palavras.append(stemmer.stem(w))
+		palavras = [stemmer.stem(w) for w in instancia.split()]
 		return (" ".join(palavras))
 
 	def prepareTexts(self, texto):
@@ -38,12 +36,7 @@ class ChatBot:
 		return frase, classificador.predict(vetorizador.transform([frase]))
 
 	def generate_test_texts(self):
-        # ['..text', 'CATEGORY']
-        
-		dados =  [
-		['My xyz teste text', 'A_XYZ_TEST']
-	   ]
-		return dados
+		return [['My xyz teste text', 'A_XYZ_TEST']]
 
 	def prepareAllData(self, dados):
 		dados_tratados = []
@@ -61,7 +54,7 @@ class ChatBot:
 		treino = []
 		validacao = []
 
-		for indice in range(0, quantidade_total):
+		for indice in range(quantidade_total):
 			if indice < quantidade_total * percentual_para_treino:
 				treino.append(dados[indice])
 			else:
@@ -90,7 +83,7 @@ class ChatBot:
 
 		total = len(avaliacao_comentarios)
 		acertos = 0
-		for indice in range(0, total):
+		for indice in range(total):
 			resultado_analise = analizer(classificador, vetorizador, avaliacao_comentarios[indice])
 			frase, resultado = resultado_analise
 			acertos += 1 if resultado[0] == avaliacao_respostas[indice] else 0
@@ -107,7 +100,7 @@ class ChatBot:
 		falsos_positivos = 0
 		falsos_negativos = 0
 
-		for indice in range(0, total):
+		for indice in range(total):
 			resultado_analise = analizer(classificador, vetorizador, avaliacao_comentarios[indice])
 			frase, resultado = resultado_analise
 			if resultado[0] == '0':

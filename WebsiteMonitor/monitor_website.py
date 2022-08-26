@@ -23,20 +23,20 @@ def send_email(message):
 if __name__ == '__main__':
     URL = ""
     KEYWORD = ""
-    
-    print("Searching for {} at {}".format(KEYWORD, URL))
+
+    print(f"Searching for {KEYWORD} at {URL}")
     while True:
         if search_website(URL, KEYWORD):
-            print("Keyword found at {}".format(datetime.datetime.now()))
+            print(f"Keyword found at {datetime.datetime.now()}")
             print("Sending e-mail")
-            message = MIMEText('{} found at {}!'.format(KEYWORD, URL), _charset='utf-8')
+            message = MIMEText(f'{KEYWORD} found at {URL}!', _charset='utf-8')
             message['from'] = 'sender@sharklasers.com'
             message['to'] = 'recipient@sharklasers.com'
             message['cc'] = ''
-            message['subject'] = '{} detected!'.format(KEYWORD)
+            message['subject'] = f'{KEYWORD} detected!'
             send_email(message)
             print("Done")
             break
         else:
-            print("Checked at {}. Not found".format(format(datetime.datetime.now())))
+            print(f"Checked at {format(datetime.datetime.now())}. Not found")
         time.sleep(60)

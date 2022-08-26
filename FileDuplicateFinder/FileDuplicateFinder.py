@@ -13,10 +13,10 @@ def hash_file(path):
     hash_builder = hashlib.sha256()
     with open(path, 'rb') as f:
         while True:
-            data = f.read(20 * 4096) # Arbitrary buffer size.
-            if not data:
+            if data := f.read(20 * 4096):
+                hash_builder.update(data)
+            else:
                 break
-            hash_builder.update(data)
     return hash_builder.hexdigest()
 
 def list_all_files(directory):

@@ -11,7 +11,7 @@ email_domain = email_user.split("@")[1]
 if email_domain in ["outlook.com", "hotmail.com"]:
     smtpserver = "smtp.live.com:587"  # Kludge for hotmail/outlook addresses
 else:
-    smtpserver = "smtp." + email_domain + ":587"  # Guess for SMTP server; works for gmail, yahoo etc.
+    smtpserver = f"smtp.{email_domain}:587"
 
 to_addr = input("Address to send to:\n")
 

@@ -14,7 +14,7 @@ def contador(link, palavra):
             texto = r.text.lower()
             contador = texto.count(palavra.lower())
             print()
-            print('{} aparece {} vezes em {}'.format(palavra, contador, link))
+            print(f'{palavra} aparece {contador} vezes em {link}')
             break
         except (requests.exceptions.ConnectionError, IndexError):
             print('O link informado é inválido, verifique-o e tente novamente.')

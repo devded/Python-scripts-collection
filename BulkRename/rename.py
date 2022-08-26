@@ -49,9 +49,7 @@ def ztrip_name(filename, skip=0):
     '''-z skip: strip chars at end of filename'''
     try: elen = int(skip)
     except: elen = len(skip)
-    if elen < len(filename):
-        return filename[:-elen].strip()
-    return filename
+    return filename[:-elen].strip() if elen < len(filename) else filename
 
 def start_name(filename, start, replace):
     '''strip and replace string in filename'''
@@ -114,9 +112,7 @@ def replace_content(filename, contains, replace):
 
 def delete_string(filename, contains):
     '''Delete content in string: returns newname'''
-    if contains in filename:
-        return filename.replace(contains, '')
-    return filename
+    return filename.replace(contains, '') if contains in filename else filename
 
 def lower_case(filename):
     '''Lower filename: from NEWNAME returns newname'''
@@ -139,17 +135,11 @@ def add_number(filename, counter, bottom):
 
 def add_string(filename, string, start=True):
     '''Add a string :returns string-newname '''
-    if start:
-        return '%s-%s' % (string, filename)
-    else:
-        return '%s-%s' % (filename, string)
+    return f'{string}-{filename}' if start else f'{filename}-{string}'
 
 def substitute(filename, pattern, replace):
     if not pattern: return filename
-    if pattern[-1] == 'i':
-        flags = re.IGNORECASE
-    else:
-        flags = None
+    flags = re.IGNORECASE if pattern[-1] == 'i' else None
     try:
         spb = pattern.split('/')
         return re.sub(spb[1], spb[2], filename, flags=flags)
@@ -161,19 +151,16 @@ def timestamp_name(filename, newname, bottom):
     from time import localtime, strftime
     filestat = os.stat(filename)
     timestring = strftime("%Y-%m-%d", localtime(filestat.st_mtime))
-    if bottom:
-        return f'{newname}-{timestring}'
-    else:
-        return f'{timestring}-{newname}'
+    return f'{newname}-{timestring}' if bottom else f'{timestring}-{newname}'
 
 def swap_name(filename, swap):
     '''Swap name like Alfa Beta Gamma -> GAMMA, Alfa, Beta'''
     '''Swap name like Alfa Beta-> BETA, Alfa'''
     parts = filename.split(swap)
-    newname = parts[-1].upper() + ','
-    for part in parts[0:-1] :
+    newname = f'{parts[-1].upper()},'
+    for part in parts[:-1]:
         part = part.strip(',')
-        newname += ' ' + part.title()
+        newname += f' {part.title()}'
     newname = newname.strip(',')
     newname = newname.strip()
     return newname
@@ -198,11 +185,7 @@ def hash_name(filename, hash='sha256'):
 def bulk_rename(a):
     '''The loop on current dir to rename files based on requests'''
 
-    if a.files:
-        filelist = a.files
-    else:
-        filelist = os.listdir('.')
-
+    filelist = a.files or os.listdir('.')
     for filename in filelist:
         if a.recursive and os.path.isdir(filename):
             os.chdir(filename)
@@ -214,13 +197,13 @@ def bulk_rename(a):
             continue
         if a.match and not re.match(a.match, filename):
             continue
-        if a.contains and not a.contains in filename:
+        if a.contains and a.contains not in filename:
             continue
 
         newname, extension = os.path.splitext(filename)
         if a.extlower:
             extension = extension.lower()
-        if a.suffix and not a.suffix in extension:
+        if a.suffix and a.suffix not in extension:
             continue
 
         if a.remove:
@@ -282,9 +265,9 @@ def remove_filename(filename, force, yes, verbose):
         print('File to be removed\t=>', CYAN, filename, RESET)
 
     if not yes:
-       answer = input(f'remove {filename} " ? [y/n] ')
-       yes = answer.lower() == 'y'
-       if not yes: return
+        answer = input(f'remove {filename} " ? [y/n] ')
+        yes = answer.lower() == 'y'
+    if not yes: return
 
     cwd = os.getcwd()
     print('THIS FILE         \t=>', GREEN, cwd, filename, RESET)
@@ -310,9 +293,9 @@ def do_rename(filename, newname, force, yes, verbose):
         print('File to be renamed\t=>', CYAN, filename, RESET)
 
     if not yes:
-       answer = input(f'Rename {filename} to "{newname}" ? [y/n] ')
-       yes = answer.lower() == 'y'
-       if not yes: return
+        answer = input(f'Rename {filename} to "{newname}" ? [y/n] ')
+        yes = answer.lower() == 'y'
+    if not yes: return
 
     print('THIS FILE         \t=>', GREEN, filename, RESET)
     if newname and yes and force:

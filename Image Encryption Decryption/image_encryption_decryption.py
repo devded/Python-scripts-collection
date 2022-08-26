@@ -37,15 +37,12 @@ def getpath(path):
     # print(a)
     fname = a[-1]
     l = len(fname)
-    location = path[:-l]
-    return location
+    return path[:-l]
 
 # function defined to get the folder name from which image is selected
 def getfoldername(path):
     a = path.split(r'/')
-    # print(a)
-    name = a[-1]
-    return name
+    return a[-1]
 
 # function defined to get the file name of image is selected
 def getfilename(path):
@@ -57,8 +54,7 @@ def getfilename(path):
 
 # function defined to open the image file
 def openfilename():
-    filename = filedialog.askopenfilename(title='"pen')
-    return filename
+    return filedialog.askopenfilename(title='"pen')
 
 # function defined to open the selected image
 def open_img():

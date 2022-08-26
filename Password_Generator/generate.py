@@ -9,7 +9,7 @@ def random_password(length):
     :param int length: The length of the password to generate.
     """
 
-    return "".join([choice(printable) for x in range(int(length))])
+    return "".join([choice(printable) for _ in range(int(length))])
 
 
 if __name__ == "__main__":

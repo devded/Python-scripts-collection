@@ -28,18 +28,18 @@ def num_align(index, coin):
     9:  Ethereum Classic  -----------ETC
     10: USD Coin  -------------------USDC
     """
-    if len(str(index)) == 2:
-        width = (len(str(index)) - 1) + len(coin)
-    else:
-         width = (len(str(index)) + 1) + len(coin)
-    return width
+    return (
+        (len(str(index)) - 1) + len(coin)
+        if len(str(index)) == 2
+        else (len(str(index)) + 1) + len(coin)
+    )
 
 os.system('clear') # clear commandline from previous commands
 print("Available Coins", end="\n\n")
 
 for index, coin in enumerate(COINS):
     num = num_align(index, coin)
-    print('\033[95m{}\033[00m:\033[92m{}\033[00m'.format(index, coin.rjust(num)))
+    print(f'\033[95m{index}\033[00m:\033[92m{coin.rjust(num)}\033[00m')
 
 print()
 user_coin = int(input("Please enter the number of coin: "))
@@ -48,7 +48,7 @@ while user_coin >  len(COINS):
     print("Your coin not in list")
     user_coin = int(input("Enter the correct coin number: "))
 
-response = requests.get("https://www.coinbase.com/price/{}".format(COINS[user_coin]))
+response = requests.get(f"https://www.coinbase.com/price/{COINS[user_coin]}")
 soup = bs(response.text, 'html.parser')
 price = soup.find("div", {"class": "ChartPriceHeader__BigAmount-sc-9ry7zl-4 dKeshi"})
 current_time = time.strftime("%b %Y %H:%M:%S", time.gmtime())

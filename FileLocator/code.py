@@ -37,9 +37,7 @@ if __name__ == "__main__":
     search_location = str(input("Directory Location : ")).strip()
     extension = str(input("Extension of files to search for : ")).strip()
 
-    if extension.startswith("."):
-        extension = extension[1:]
-
+    extension = extension.removeprefix(".")
     for dirname, _, files in os.walk(search_location):
         for filename in files:
             if filename.endswith(f".{extension}"):

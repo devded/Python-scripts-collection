@@ -9,7 +9,6 @@ if not os.path.exists(path):
 
 def get_playlist(url):
     amp = 0
-    final_url = []
     if 'list=' in url:
         eq = url.rfind('=') + 1
         cPL = url[eq:]   
@@ -21,27 +20,26 @@ def get_playlist(url):
     except urllib.error.URLError as e:
         print(e.reason)
     tmp_mat = re.compile(r'watch\?v=\S+?list=' + cPL)
-    mat = re.findall(tmp_mat, sTUBE)
-    if mat:
+    if mat := re.findall(tmp_mat, sTUBE):
+        final_url = []
         for PL in mat:
             yPL = str(PL)
             if '&' in yPL:
                 yPL_amp = yPL.index('&')
-            final_url.append('http://www.youtube.com/' + yPL[:yPL_amp])
+            final_url.append(f'http://www.youtube.com/{yPL[:yPL_amp]}')
         all_url = list(set(final_url))
         i = 0
-        file = open(video_file, "w", encoding="utf-8")
-        while i < len(all_url):
-            file.write(all_url[i].strip() + '\n')
-            time.sleep(0.04)
-            i = i + 1
-        file.close() 
+        with open(video_file, "w", encoding="utf-8") as file:
+            while i < len(all_url):
+                file.write(all_url[i].strip() + '\n')
+                time.sleep(0.04)
+                i += 1
     else:
         print('No videos found.')
         exit(1)
 
-if not 'http' in url:
-    url = 'http://' + url
+if 'http' not in url:
+    url = f'http://{url}'
 get_playlist(url)
 
 with open(video_file) as file:

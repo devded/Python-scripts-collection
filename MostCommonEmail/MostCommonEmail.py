@@ -7,7 +7,7 @@ fname = raw_input('Enter file name: ')
 fhandle = open(fname)
 
 # 3. Create dictionary
-counts = dict()
+counts = {}
 
 # 4. Variable: first word to look for in each sentence
 x = 'From'
@@ -44,14 +44,9 @@ for line in fhandle:
 counts = counts.items()
 
 # 11. Loop through lists to convert to value-key tuples
-lst = list()
-for k, v in counts:
-    lst.append((v, k))
-
+lst = [(v, k) for k, v in counts]
 lst = sorted(lst)
 
-# Least common
-print lst[0]
+fname = raw_input('Enter file name: ')
 
-# Most common
-print lst[-1]
+fname
